@@ -1,0 +1,7 @@
+{
+  "name": "Kingland Cruises",
+  "version": "0.0.1",
+  "description": "Documentation for Kinglanf cruises API",
+  "title": "Kingland cruises API",
+  "url": "localhost:3001/api/v1"
+}
