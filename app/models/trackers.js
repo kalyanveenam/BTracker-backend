@@ -16,13 +16,14 @@ let bugSchema = new mySchema({
   Assignee: {
     type: String,
   },
-  Date: {
+  createdDate: {
     type: Date,
+    default: Date.now,
   },
   owner: {
     type: Mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "users",
-  }
+    ref: 'users',
+  },
 });
 module.exports = Mongoose.model("Trackers", bugSchema);

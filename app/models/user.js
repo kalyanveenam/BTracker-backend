@@ -17,4 +17,9 @@ let userSchema = new mySchema({
     required: true,
   },
 });
+userSchema.virtual('userBugs', {
+  ref: 'Trackers',
+  localField:'_id',
+  foreignField:'owner'
+})
 module.exports = Mongoose.model("users", userSchema);
