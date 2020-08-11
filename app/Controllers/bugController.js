@@ -2,11 +2,11 @@ const Mongoose = require("mongoose");
 let response = require("../Libs/responseLib");
 const responseLib = require("../Libs/responseLib");
 const bugModel = Mongoose.model("Trackers");
-const userModel= Mongoose.model('users')
+const userModel = Mongoose.model("users");
 let createBug = (req, res) => {
   const createBug = new bugModel({
     ...req.body,
-    owner: req.user._id
+    owner: req.user._id,
   }).save((data, error) => {
     if (error) {
       let apiResponse = response.generate(true, error, 404, null);
@@ -17,14 +17,16 @@ let createBug = (req, res) => {
     }
   });
 };
-let getAllBugs = async (req, res) => {
- 
-  let user = await userModel.findById(req.user._id)
-  console.log("user->" + req.user);
-  console.log(req.user)
- await user.populate("userBugs").execPopulate();
+let getAllBugs = (req, res) => {
+  userModel.findById(req.user._id);
 
-  res.send(user.userBugs);
+  userModel
+    .findOne({ _id: req.user._id })
+    .populate("userBugs")
+    .exec(function (err, bugs) {
+      if (err) throw err;
+      res.send(bugs);
+    });
 };
 module.exports = {
   createBug: createBug,
