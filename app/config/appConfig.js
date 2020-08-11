@@ -3,7 +3,7 @@ let config = {
   PORT: process.env.PORT || 3001,
 
   mongodb: {
-    url: "mongodb+srv://BTAdmin:admin@2020@btracker.mwrg9.mongodb.net/test",
+    url: "mongodb+srv://BTAdmin:admin@2020@btracker.mwrg9.mongodb.net/Btracker",
   },
   env: "prod",
 };
