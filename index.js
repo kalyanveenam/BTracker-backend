@@ -3,12 +3,13 @@ let path = require("path");
 let mongoose = require("mongoose");
 var cors = require("cors");
 let fs = require("fs");
-
+let logger = require("pino")();
 let routeNotFound = require("./app/Middlewares/routeValidation");
 let { config } = require("./app/config/appConfig");
 const { Router } = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+logger.info("hello world");
 var corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
