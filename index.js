@@ -40,5 +40,5 @@ app.use(routeNotFound.routeNotFound);
 console.log(routerPath);
 app.listen(process.env.PORT, () => {
   mongoose.connect(process.env.MONGODB_URL, { useMongoClient: true });
-  console.log("App is listening on " + config.PORT);
+  console.log("App is listening on " + process.env.PORT);
 });
