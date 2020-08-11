@@ -12,6 +12,7 @@ const bugRoutes = (app) => {
     auth.authValidation,
     bugController.getAllBugs
   );
+  app.get(apiConfig.config.apiVersion + "/ping", { test: "1234" });
 };
 /**
  * @api {post} /api/v1/create/bug
