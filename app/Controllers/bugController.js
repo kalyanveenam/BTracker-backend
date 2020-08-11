@@ -17,16 +17,12 @@ let createBug = (req, res) => {
     }
   });
 };
-let getAllBugs = (req, res) => {
-  userModel.findById(req.user._id);
-
-  userModel
-    .findOne({ _id: req.user._id })
-    .populate("userBugs")
-    .exec(function (err, bugs) {
-      if (err) throw err;
-      res.send(bugs);
-    });
+let getAllBugs =async (req, res) => {
+  let user = await userModel.findById(req.user._id)
+  console.log("user->" + req.user);
+  console.log(req.user)
+  await user.populate("userBugs").execPopulate();
+  res.send(user.userBugs);
 };
 module.exports = {
   createBug: createBug,
