@@ -1,19 +1,19 @@
 const Mongoose = require("mongoose");
 const mySchema = Mongoose.Schema;
 let bugSchema = new mySchema({
-  Title: {
+  title: {
     type: String,
   },
-  Description: {
+  description: {
     type: String,
   },
-  Priority: {
+  priority: {
     type: String,
   },
-  Attachment: {
+  attachment: {
     type: String,
   },
-  Assignee: {
+  assignee: {
     type: String,
   },
   createdDate: {

@@ -38,7 +38,7 @@ files = files.substring(0, files.length - 1);
 console.log("fi " + files);
 app.use(routeNotFound.routeNotFound);
 console.log(routerPath);
-app.listen(config.PORT, () => {
-  mongoose.connect(config.mongodb.url, { useMongoClient: true });
+app.listen(process.env.PORT, () => {
+  mongoose.connect(process.env.MONGODB_URL, { useMongoClient: true });
   console.log("App is listening on " + config.PORT);
 });

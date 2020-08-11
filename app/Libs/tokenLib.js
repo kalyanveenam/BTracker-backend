@@ -1,5 +1,5 @@
 let jwt = require("jsonwebtoken");
-let secret = "smkccss";
+let secret = process.env.JWT_SECRET;
 let generateToken = (data, callback) => {
   try {
     console.log(data);
