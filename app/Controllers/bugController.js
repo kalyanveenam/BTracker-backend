@@ -18,15 +18,17 @@ let createBug = (req, res) => {
   });
 };
 let getAllBugs = (req, res) => {
-  userModel.findById(req.user._id);
+  userModel.findById(req.user._id, (error, data) => {
+    res.send(data);
+  });
 
-  userModel
-    .findOne({ _id: req.user._id })
-    .populate("userBugs")
-    .exec(function (err, bugs) {
-      if (err) throw err;
-      res.send(bugs);
-    });
+  // userModel
+  //   .findOne({ _id: req.user._id })
+  //   .populate("userBugs")
+  //   .exec(function (err, bugs) {
+  //     if (err) throw err;
+  //     res.send(bugs);
+  //   });
 };
 module.exports = {
   createBug: createBug,
