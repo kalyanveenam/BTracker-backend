@@ -13,6 +13,8 @@ Read from body:
 req.body
 Read from headers
 req.headers
+from prameters:
+req.params
 
 
 whenever u perform db operation, result will be available via second parameter in callback
