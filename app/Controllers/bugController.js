@@ -31,7 +31,7 @@ let getAllBugs = async (req, res) => {
 };
 let getBugsById = async (req, res) => {
   let id = req.params.id;
-  await bugModel.findById(id, (result, error) => {
+  await bugModel.findById(id, (error,result ) => {
     if (result) {
       let apiResponse = response.generate(false, null, 200, result);
       res.send(apiResponse);
