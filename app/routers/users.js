@@ -59,6 +59,8 @@ const userRoutes = (app) => {
     }
 }
  */
+app.get(config.apiVersion + "/users/all",isAuth.authValidation, userCon.getAllUsers);
+
   app.post(config.apiVersion + "/user/logout", userCon.logout);
  /**
  * @api {post} /user/logout

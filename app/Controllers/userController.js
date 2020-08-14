@@ -213,8 +213,14 @@ let logout = (req, res) => {
       res.status(404).send(err);
     });
 };
+let getAllUsers = (req, res) => { 
+  userModel.find((error, result) => { 
+    res.send(result)
+  })
+}
 module.exports = {
   loginUser: loginUser,
   createUser: createUser,
   logout: logout,
+  getAllUsers:getAllUsers
 };
