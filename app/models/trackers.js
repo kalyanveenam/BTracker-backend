@@ -41,4 +41,9 @@ let bugSchema = new mySchema({
     required: true,
   }
 });
+bugSchema.virtual('comments', {
+  ref: 'comments',
+  localField:'_id',
+  foreignField:'bugId'
+})
 module.exports = mongoose.model("Trackers", bugSchema);

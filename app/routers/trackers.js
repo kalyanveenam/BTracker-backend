@@ -13,8 +13,25 @@ const bugRoutes = (app) => {
     bugController.getAllBugs
   );
   app.get(apiConfig.config.apiVersion + "/bugs/:id", bugController.getBugsById);
-  app.post(apiConfig.config.apiVersion+ "/bugs/update/:id",bugController.updateBugs)
-app.post(apiConfig.config.apiVersion+ "/bugs/sort/assignee",auth.authValidation,bugController.getBugsByAssignee)
+  app.post(
+    apiConfig.config.apiVersion + "/bugs/update/:id",
+    bugController.updateBugs
+  );
+  app.post(
+    apiConfig.config.apiVersion + "/bugs/sort/assignee",
+    auth.authValidation,
+    bugController.getBugsByAssignee
+  );
+  app.post(
+    apiConfig.config.apiVersion + "/bugs/comments",
+    auth.authValidation,
+    bugController.createComment
+  );
+  app.get(
+    apiConfig.config.apiVersion + "/bugs/comments/all",
+    auth.authValidation,
+    bugController.getCommentsById
+  );
 };
 /**
  * @api {post} /api/v1/create/bug

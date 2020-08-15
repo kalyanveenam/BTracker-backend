@@ -3,6 +3,7 @@ let response = require("../Libs/responseLib");
 const responseLib = require("../Libs/responseLib");
 const bugModel = Mongoose.model("Trackers");
 const userModel = Mongoose.model("users");
+const commModel= Mongoose.model('comments')
 let createBug = (req, res) => {
   const createBug = new bugModel({
     title: req.body.title,
@@ -78,6 +79,29 @@ let getBugsByAssignee = async (req, res) => {
     }
   });
 };
+let createComment = (req, res) => { 
+  let createComm = new commModel({
+    username: req.user.name,
+    comment: req.body.comment,
+    bugId: req.body.bugId
+  }).save((error, data) => {
+    if (data) {
+      let apiResponse = response.generate(false, null, 201, data);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(true, error, 404, null);
+      res.status(201).send(apiResponse);
+    }
+  });
+}
+let getCommentsById = async (req, res) => { 
+  let tracker = await bugModel.findById(req.query.id);
+  console.log("tracker->" + tracker);
+
+   await tracker.populate("comments").execPopulate();
+  let apiResponse = response.generate(false, null, 200, tracker.comments);
+  res.send(apiResponse);
+}
 
 module.exports = {
   createBug: createBug,
@@ -85,4 +109,6 @@ module.exports = {
   getBugsById: getBugsById,
   updateBugs: updateBugs,
   getBugsByAssignee: getBugsByAssignee,
+  createComment: createComment,
+  getCommentsById:getCommentsById
 };
