@@ -4,7 +4,7 @@ let commSchema = new commentSchema(
     {
         username: {
             type: String,
-        unique: true
+       
         },
         comment: {
             type: String
