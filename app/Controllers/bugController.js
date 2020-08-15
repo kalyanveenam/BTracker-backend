@@ -11,6 +11,7 @@ let createBug = (req, res) => {
     attachment: req.body.attachment,
     assignee: req.body.assignee,
     owner: req.user._id,
+    reporter: req.body.reporter,
   }).save((error, data) => {
     if (data) {
       let apiResponse = response.generate(false, null, 201, data);
@@ -31,7 +32,7 @@ let getAllBugs = async (req, res) => {
 };
 let getBugsById = async (req, res) => {
   let id = req.params.id;
-  await bugModel.findById(id, (error,result ) => {
+  await bugModel.findById(id, (error, result) => {
     if (result) {
       let apiResponse = response.generate(false, null, 200, result);
       res.send(apiResponse);
@@ -42,7 +43,6 @@ let getBugsById = async (req, res) => {
   });
 };
 let updateBugs = async (req, res) => {
-  
   let updates = Object.keys(req.body);
   try {
     let bugs = await bugModel.findById(req.params.id);
@@ -67,10 +67,22 @@ let updateBugs = async (req, res) => {
     res.send(apiResponse);
   }
 };
+let getBugsByAssignee = async (req, res) => {
+  bugModel.find({ assignee: req.body.assignee }, (error, result) => {
+    if (result) {
+      let apiResponse = response.generate(false, null, 200, result);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(false, error, 404, null);
+      res.send(apiResponse);
+    }
+  });
+};
 
 module.exports = {
   createBug: createBug,
   getAllBugs: getAllBugs,
   getBugsById: getBugsById,
   updateBugs: updateBugs,
+  getBugsByAssignee: getBugsByAssignee,
 };

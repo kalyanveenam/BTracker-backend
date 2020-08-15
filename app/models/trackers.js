@@ -36,5 +36,9 @@ let bugSchema = new mySchema({
     required: true,
     ref: "users",
   },
+  reporter: {
+    type: String,
+    required: true,
+  }
 });
 module.exports = mongoose.model("Trackers", bugSchema);

@@ -14,6 +14,7 @@ const bugRoutes = (app) => {
   );
   app.get(apiConfig.config.apiVersion + "/bugs/:id", bugController.getBugsById);
   app.post(apiConfig.config.apiVersion+ "/bugs/update/:id",bugController.updateBugs)
+app.post(apiConfig.config.apiVersion+ "/bugs/sort/assignee",auth.authValidation,bugController.getBugsByAssignee)
 };
 /**
  * @api {post} /api/v1/create/bug
