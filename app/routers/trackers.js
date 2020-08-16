@@ -1,7 +1,26 @@
 const apiConfig = require("../config/appConfig");
 let auth = require("../Middlewares/authVerify");
 let bugController = require("../Controllers/bugController");
+var multer = require("multer");
+var upload = multer();
+
 const bugRoutes = (app) => {
+  app.post(
+    apiConfig.config.apiVersion + "/create/attachment",
+    auth.authValidation,
+    upload.single("attachments"),
+    // (req, res) => {
+    //   res.send(req.file.buffer)
+    // }
+    bugController.createAttachment
+  );
+  app.get(
+    apiConfig.config.apiVersion + "/get/attachments",
+    auth.authValidation,
+
+    bugController.getAttachmentsById
+  );
+
   app.post(
     apiConfig.config.apiVersion + "/create/bug",
     auth.authValidation,

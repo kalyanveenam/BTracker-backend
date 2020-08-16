@@ -3,7 +3,8 @@ let response = require("../Libs/responseLib");
 const responseLib = require("../Libs/responseLib");
 const bugModel = Mongoose.model("Trackers");
 const userModel = Mongoose.model("users");
-const commModel= Mongoose.model('comments')
+const commModel = Mongoose.model("comments");
+const attachmentModel = Mongoose.model("attachments");
 let createBug = (req, res) => {
   const createBug = new bugModel({
     title: req.body.title,
@@ -79,11 +80,11 @@ let getBugsByAssignee = async (req, res) => {
     }
   });
 };
-let createComment = (req, res) => { 
+let createComment = (req, res) => {
   let createComm = new commModel({
     username: req.user.name,
     comment: req.body.comment,
-    bugId: req.body.bugId
+    bugId: req.body.bugId,
   }).save((error, data) => {
     if (data) {
       let apiResponse = response.generate(false, null, 201, data);
@@ -93,13 +94,35 @@ let createComment = (req, res) => {
       res.status(201).send(apiResponse);
     }
   });
-}
-let getCommentsById = async (req, res) => { 
+};
+let getCommentsById = async (req, res) => {
   let tracker = await bugModel.findById(req.query.id);
   console.log("tracker->" + tracker);
 
-   await tracker.populate("comments").execPopulate();
+  await tracker.populate("comments").execPopulate();
   let apiResponse = response.generate(false, null, 200, tracker.comments);
+  res.send(apiResponse);
+};
+let createAttachment = (req, res) => {
+
+ 
+  let cretateAtt = new attachmentModel({
+    attachments:   req.file.buffer,
+    bugId: req.query.bugId,
+  }).save((error, result) => {
+    if (result) {
+      let apiResponse = response.generate(false, null, 200, result);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(true, error, 404, null);
+      res.send(apiResponse);
+    }
+  });
+};
+let getAttachmentsById = async (req, res) => { 
+  let tracker = await bugModel.findById(req.query.id);
+  await tracker.populate("attachments").execPopulate();
+  let apiResponse = response.generate(false, null, 200, tracker.attachments);
   res.send(apiResponse);
 }
 
@@ -110,5 +133,7 @@ module.exports = {
   updateBugs: updateBugs,
   getBugsByAssignee: getBugsByAssignee,
   createComment: createComment,
-  getCommentsById:getCommentsById
+  getCommentsById: getCommentsById,
+  createAttachment: createAttachment,
+  getAttachmentsById:getAttachmentsById
 };

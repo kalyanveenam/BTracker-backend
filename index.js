@@ -2,6 +2,7 @@ let express = require("express");
 let path = require("path");
 let mongoose = require("mongoose");
 var cors = require("cors");
+var multer  = require('multer')
 let fs = require("fs");
 let logger = require("pino")();
 let routeNotFound = require("./app/Middlewares/routeValidation");

@@ -46,4 +46,9 @@ bugSchema.virtual('comments', {
   localField:'_id',
   foreignField:'bugId'
 })
+bugSchema.virtual('attachments', {
+  ref: 'attachments',
+  localField: '_id',
+  foreignField:'bugId'
+})
 module.exports = mongoose.model("Trackers", bugSchema);
