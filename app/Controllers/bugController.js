@@ -104,10 +104,8 @@ let getCommentsById = async (req, res) => {
   res.send(apiResponse);
 };
 let createAttachment = (req, res) => {
-
- 
   let cretateAtt = new attachmentModel({
-    attachments:   req.file.buffer,
+    attachments: req.file.buffer,
     bugId: req.query.bugId,
   }).save((error, result) => {
     if (result) {
@@ -119,12 +117,15 @@ let createAttachment = (req, res) => {
     }
   });
 };
-let getAttachmentsById = async (req, res) => { 
+let getAttachmentsById = async (req, res) => {
   let tracker = await bugModel.findById(req.query.id);
   await tracker.populate("attachments").execPopulate();
+  res.set("Content-type", "image/jpg");
+  res.set("Access-Control-Allow-Origin", "*");
+ 
   let apiResponse = response.generate(false, null, 200, tracker.attachments);
   res.send(apiResponse);
-}
+};
 
 module.exports = {
   createBug: createBug,
@@ -135,5 +136,5 @@ module.exports = {
   createComment: createComment,
   getCommentsById: getCommentsById,
   createAttachment: createAttachment,
-  getAttachmentsById:getAttachmentsById
+  getAttachmentsById: getAttachmentsById,
 };

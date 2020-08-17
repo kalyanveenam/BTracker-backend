@@ -16,7 +16,6 @@ const bugRoutes = (app) => {
   );
   app.get(
     apiConfig.config.apiVersion + "/get/attachments",
-    auth.authValidation,
 
     bugController.getAttachmentsById
   );
