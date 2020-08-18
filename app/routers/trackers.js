@@ -6,7 +6,7 @@ var upload = multer();
 
 const bugRoutes = (app) => {
   app.post(
-    apiConfig.config.apiVersion + "/create/attachment",
+    "/create/attachment",
     auth.authValidation,
     upload.single("attachments"),
     // (req, res) => {
