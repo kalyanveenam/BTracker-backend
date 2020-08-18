@@ -104,11 +104,13 @@ let getCommentsById = async (req, res) => {
   res.send(apiResponse);
 };
 let createAttachment = (req, res) => {
+  
   let cretateAtt = new attachmentModel({
     attachments: req.file.buffer,
     bugId: req.query.bugId,
   }).save((error, result) => {
     if (result) {
+      res.set("Access-Control-Allow-Origin", "*");
       let apiResponse = response.generate(false, null, 200, result);
       res.send(apiResponse);
     } else {
