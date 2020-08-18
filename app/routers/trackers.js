@@ -6,7 +6,7 @@ var upload = multer();
 
 const bugRoutes = (app) => {
   app.post(
-    apiConfig.config.apiVersion +"/create/attachment",
+    apiConfig.config.apiVersion + "/create/attachment",
     auth.authValidation,
     upload.single("attachments"),
     // (req, res) => {
@@ -53,7 +53,6 @@ const bugRoutes = (app) => {
 };
 /**
  * @api {post} /api/v1/create/bug
-
  * @apiGroup Bugs
  *
  * @apiParam {String} title Title of bug.
@@ -62,7 +61,6 @@ const bugRoutes = (app) => {
  *@apiParam {String} Attachments .
   @apiParam {String} assignee of bug.
  *@apiParam {String} owner Unique ID of owner
-
  * @apiSuccessExample {json} Success-Response:{
     "error": true,
     "message": {
