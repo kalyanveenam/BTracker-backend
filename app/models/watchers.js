@@ -29,5 +29,9 @@ let watcherSchema = new watchschema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "userSchema",
   },
+  watchedBug: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Trackers"
+  }
 });
 module.exports = mongoose.model("watcher", watcherSchema);

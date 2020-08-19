@@ -56,12 +56,12 @@ const bugRoutes = (app) => {
     bugController.createWatcher
   );
   app.get(
-    apiConfig.config.apiVersion + "/get/trackers/watched",
+    apiConfig.config.apiVersion + "/get/bugsByUserId",
     auth.authValidation,
     bugController.getWatchTrackerByuser
   );
   app.get(
-    apiConfig.config.apiVersion + "/get/watched/ByUser",
+    apiConfig.config.apiVersion + "/get/usersBybugId",
     auth.authValidation,
     bugController.getWatchersByUsername
   );

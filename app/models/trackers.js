@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 const mySchema = mongoose.Schema;
 let bugSchema = new mySchema({
   bugID: {
-    type: String
+    type: String,
   },
   title: {
     type: String,
     require: true,
-    
   },
   description: {
     type: String,
@@ -39,16 +38,21 @@ let bugSchema = new mySchema({
   reporter: {
     type: String,
     required: true,
-  }
+  },
 });
-bugSchema.virtual('comments', {
-  ref: 'comments',
-  localField:'_id',
-  foreignField:'bugId'
-})
-bugSchema.virtual('attachments', {
-  ref: 'attachments',
-  localField: '_id',
-  foreignField:'bugId'
-})
+bugSchema.virtual("comments", {
+  ref: "comments",
+  localField: "_id",
+  foreignField: "bugId",
+});
+bugSchema.virtual("attachments", {
+  ref: "attachments",
+  localField: "_id",
+  foreignField: "bugId",
+});
+bugSchema.virtual("watchers", {
+  ref: "watcher",
+  localField: "_id",
+  foreignField: "watchedBug",
+});
 module.exports = mongoose.model("Trackers", bugSchema);

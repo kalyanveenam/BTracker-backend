@@ -135,7 +135,8 @@ let createWatcher = (req, res) => {
     bugStatus: req.body.status,
     bugDescription: req.body.description,
     assignee: req.body.assignee,
-    watchedUser: req.query.watchId,
+    watchedUser: req.query.userId,
+    watchedBug: req.query.bugId
   }).save((error, result) => {
     if (result) {
       let apiResponse = response.generate(false, null, 200, result);
@@ -146,17 +147,16 @@ let createWatcher = (req, res) => {
     }
   });
 };
-let getWatchersByUsername = (req, res) => {
-  watchModel.find({ username: req.query.username }, (error, result) => {
-    if (result) {
-      let apiResponse = response.generate(false, null, 200, result);
-      res.send(apiResponse);
-    } else {
-      let apiResponse = response.generate(false, error, 404, null);
-      res.send(apiResponse);
-    }
-  });
+// displays all the users by current tracker 
+let getWatchersByUsername = async (req, res) => {
+  let bug = await bugModel.findById(req.query.id);
+  console.log(bug);
+  await bug.populate("watchers").execPopulate();
+  let apiResponse = response.generate(false, null, 200, bug.watchers);
+  res.send(apiResponse);
 };
+//finds a user by its id of current user , populates all the bugs marked as watched by current user
+// should be displyed in dashboard 
 let getWatchTrackerByuser = async (req, res) => {
   console.log(req.query.id);
   let user = await userModel.findById(req.query.id);
