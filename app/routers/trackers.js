@@ -50,6 +50,21 @@ const bugRoutes = (app) => {
     auth.authValidation,
     bugController.getCommentsById
   );
+  app.post(
+    apiConfig.config.apiVersion + "/add/watcher",
+    auth.authValidation,
+    bugController.createWatcher
+  );
+  app.get(
+    apiConfig.config.apiVersion + "/get/trackers/watched",
+    auth.authValidation,
+    bugController.getWatchTrackerByuser
+  );
+  app.get(
+    apiConfig.config.apiVersion + "/get/watched/ByUser",
+    auth.authValidation,
+    bugController.getWatchersByUsername
+  );
 };
 /**
  * @api {post} /api/v1/create/bug

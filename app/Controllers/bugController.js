@@ -5,6 +5,7 @@ const bugModel = Mongoose.model("Trackers");
 const userModel = Mongoose.model("users");
 const commModel = Mongoose.model("comments");
 const attachmentModel = Mongoose.model("attachments");
+const watchModel = Mongoose.model("watcher");
 let createBug = (req, res) => {
   const createBug = new bugModel({
     title: req.body.title,
@@ -126,7 +127,44 @@ let getAttachmentsById = async (req, res) => {
   let apiResponse = response.generate(false, null, 200, tracker.attachments);
   res.send(apiResponse);
 };
-
+let createWatcher = (req, res) => {
+  let watchattr = new watchModel({
+    username: req.body.username,
+    bugTitle: req.body.title,
+    bugPriority: req.body.priority,
+    bugStatus: req.body.status,
+    bugDescription: req.body.description,
+    assignee: req.body.assignee,
+    watchedUser: req.query.watchId,
+  }).save((error, result) => {
+    if (result) {
+      let apiResponse = response.generate(false, null, 200, result);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(true, error, 404, null);
+      res.send(apiResponse);
+    }
+  });
+};
+let getWatchersByUsername = (req, res) => {
+  watchModel.find({ username: req.query.username }, (error, result) => {
+    if (result) {
+      let apiResponse = response.generate(false, null, 200, result);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(false, error, 404, null);
+      res.send(apiResponse);
+    }
+  });
+};
+let getWatchTrackerByuser = async (req, res) => {
+  console.log(req.query.id);
+  let user = await userModel.findById(req.query.id);
+  console.log(user);
+  await user.populate("watchedBugs").execPopulate();
+  let apiResponse = response.generate(false, null, 200, user.watchedBugs);
+  res.send(apiResponse);
+};
 module.exports = {
   createBug: createBug,
   getAllBugs: getAllBugs,
@@ -137,4 +175,7 @@ module.exports = {
   getCommentsById: getCommentsById,
   createAttachment: createAttachment,
   getAttachmentsById: getAttachmentsById,
+  createWatcher: createWatcher,
+  getWatchersByUsername: getWatchersByUsername,
+  getWatchTrackerByuser: getWatchTrackerByuser,
 };
