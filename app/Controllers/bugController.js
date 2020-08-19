@@ -6,6 +6,18 @@ const userModel = Mongoose.model("users");
 const commModel = Mongoose.model("comments");
 const attachmentModel = Mongoose.model("attachments");
 const watchModel = Mongoose.model("watcher");
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../attachments/"));
+  },
+  // By default, multer removes file extensions so let's add them back
+  filename: function (req, file, cb) {
+    cb(null, file.originalname + "-" + path.extname(file.originalname));
+  },
+});
+
 let createBug = (req, res) => {
   const createBug = new bugModel({
     title: req.body.title,
@@ -165,6 +177,26 @@ let getWatchTrackerByuser = async (req, res) => {
   let apiResponse = response.generate(false, null, 200, user.watchedBugs);
   res.send(apiResponse);
 };
+let uploadAttachment = (req, res) => {
+  let upload = multer({ storage: storage }).single("attachment");
+  upload(req, res, function (err) {
+    // req.file contains information of uploaded file
+    // req.body contains information of text fields, if there were any
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError);
+    } else if (!req.file) {
+      return res.send("Please select an image to upload");
+    } else if (err instanceof multer.MulterError) {
+      return res.send(err);
+    } else if (err) {
+      return res.send(err);
+    }
+    // Display uploaded image for user validation
+    var response = {};
+    response.filepath = req.file.path;
+    res.status(200).send(response);
+  });
+};
 module.exports = {
   createBug: createBug,
   getAllBugs: getAllBugs,
@@ -178,4 +210,5 @@ module.exports = {
   createWatcher: createWatcher,
   getWatchersByUsername: getWatchersByUsername,
   getWatchTrackerByuser: getWatchTrackerByuser,
+  uploadAttachment: uploadAttachment,
 };

@@ -65,6 +65,10 @@ const bugRoutes = (app) => {
     auth.authValidation,
     bugController.getWatchersByUsername
   );
+  app.post(
+    apiConfig.config.apiVersion + "/uploadAttachment",
+    bugController.uploadAttachment
+);
 };
 /**
  * @api {post} /api/v1/create/bug
