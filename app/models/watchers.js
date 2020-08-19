@@ -5,19 +5,19 @@ let watcherSchema = new watchschema({
     type: String,
     require: true,
   },
-  bugTitle: {
+  title: {
     type: String,
     require: true,
   },
-  bugPriority: {
+  priority: {
     type: String,
     require: true,
   },
-  bugStatus: {
+  status: {
     type: String,
     require: true,
   },
-  bugDescription: {
+  description: {
     type: String,
     require: true,
   },
@@ -31,7 +31,11 @@ let watcherSchema = new watchschema({
   },
   watchedBug: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Trackers"
-  }
+    ref: "Trackers",
+  },
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 module.exports = mongoose.model("watcher", watcherSchema);

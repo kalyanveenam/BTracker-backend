@@ -130,13 +130,13 @@ let getAttachmentsById = async (req, res) => {
 let createWatcher = (req, res) => {
   let watchattr = new watchModel({
     username: req.body.username,
-    bugTitle: req.body.title,
-    bugPriority: req.body.priority,
-    bugStatus: req.body.status,
-    bugDescription: req.body.description,
+    title: req.body.title,
+    priority: req.body.priority,
+    status: req.body.status,
+    description: req.body.description,
     assignee: req.body.assignee,
     watchedUser: req.query.userId,
-    watchedBug: req.query.bugId
+    watchedBug: req.query.bugId,
   }).save((error, result) => {
     if (result) {
       let apiResponse = response.generate(false, null, 200, result);
@@ -147,7 +147,7 @@ let createWatcher = (req, res) => {
     }
   });
 };
-// displays all the users by current tracker 
+// displays all the users by current tracker
 let getWatchersByUsername = async (req, res) => {
   let bug = await bugModel.findById(req.query.id);
   console.log(bug);
@@ -156,7 +156,7 @@ let getWatchersByUsername = async (req, res) => {
   res.send(apiResponse);
 };
 //finds a user by its id of current user , populates all the bugs marked as watched by current user
-// should be displyed in dashboard 
+// should be displyed in dashboard
 let getWatchTrackerByuser = async (req, res) => {
   console.log(req.query.id);
   let user = await userModel.findById(req.query.id);
