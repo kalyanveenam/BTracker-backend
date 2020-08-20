@@ -2,7 +2,7 @@ let express = require("express");
 let path = require("path");
 let mongoose = require("mongoose");
 var cors = require("cors");
-var multer  = require('multer')
+var multer = require("multer");
 let fs = require("fs");
 let logger = require("pino")();
 let routeNotFound = require("./app/Middlewares/routeValidation");
@@ -17,6 +17,7 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use("/files", express.static(__dirname + "/app/attachments"));
 let modelPath = path.join(__dirname, "./app/models");
 fs.readdirSync(modelPath).forEach(function (file) {
   if (~file.indexOf(".js")) {
