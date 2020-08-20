@@ -195,7 +195,7 @@ let uploadAttachment = (req, res) => {
     // Display uploaded image for user validation
      var response = {};
 
-    res.status(200).send(response);
+    res.status(200).send(JSON.stringify(response));
   });
 };
 let storeAttachments = (req, res) => {
