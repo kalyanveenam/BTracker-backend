@@ -8,6 +8,7 @@ const attachmentModel = Mongoose.model("attachments");
 const watchModel = Mongoose.model("watcher");
 const multer = require("multer");
 const path = require("path");
+const attachments = require("../models/attachments");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../attachments/"));
@@ -133,9 +134,6 @@ let createAttachment = (req, res) => {
 let getAttachmentsById = async (req, res) => {
   let tracker = await bugModel.findById(req.query.id);
   await tracker.populate("attachments").execPopulate();
-  res.set("Content-type", "image/jpg");
-  res.set("Access-Control-Allow-Origin", "*");
-
   let apiResponse = response.generate(false, null, 200, tracker.attachments);
   res.send(apiResponse);
 };
@@ -191,10 +189,28 @@ let uploadAttachment = (req, res) => {
     } else if (err) {
       return res.send(err);
     }
+
+    console.log(req.file.path);
+
     // Display uploaded image for user validation
-    var response = {};
-    response.filepath = req.file.path;
+     var response = {};
+
     res.status(200).send(response);
+  });
+};
+let storeAttachments = (req, res) => {
+  new attachmentModel({
+    attachment: req.body.name,
+    bugId: req.query.bugId,
+    userId: req.query.userId,
+  }).save((error, result) => {
+    if (result) {
+      let apiResponse = response.generate(false, null, 200, result);
+      res.send(apiResponse);
+    } else {
+      let apiResponse = response.generate(true, error, 404, null);
+      res.send(apiResponse);
+    }
   });
 };
 module.exports = {
@@ -211,4 +227,5 @@ module.exports = {
   getWatchersByUsername: getWatchersByUsername,
   getWatchTrackerByuser: getWatchTrackerByuser,
   uploadAttachment: uploadAttachment,
+  storeAttachments: storeAttachments,
 };

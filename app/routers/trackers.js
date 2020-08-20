@@ -68,7 +68,12 @@ const bugRoutes = (app) => {
   app.post(
     apiConfig.config.apiVersion + "/uploadAttachment",
     bugController.uploadAttachment
-);
+  );
+  app.post(
+    apiConfig.config.apiVersion + "/upload/attachment",
+    auth.authValidation,
+    bugController.storeAttachments
+  )
 };
 /**
  * @api {post} /api/v1/create/bug
