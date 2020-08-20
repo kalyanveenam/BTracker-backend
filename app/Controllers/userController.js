@@ -5,7 +5,7 @@ let passwordLib = require("../Libs/PasswordLib");
 let userModel = Mongoose.model("users");
 let authModel = Mongoose.model("auth");
 let token = require("../Libs/tokenLib");
-
+let emailHelper = require("../Libs/EmailHelper");
 let loginUser = (req, res) => {
   let verifyData = (req, res) => {
     return new Promise((resolve, reject) => {
@@ -218,9 +218,79 @@ let getAllUsers = (req, res) => {
     res.send(result);
   });
 };
+let sendEmail = (req, res) => {
+  var info = emailHelper.sendMail(req.body.to, req.body.subject, req.body.text);
+  info
+    .then((result) => {
+      let apiResponse = response.generate(false, null, 200, "Email Sent");
+      res.send(apiResponse);
+    })
+    .catch((err) => {
+      let apiResponse = response.generate(false, null, 400, "Invalid details");
+      res.status(400).send(apiResponse);
+    });
+};
+let forgotPassword = async (req, res) => {
+  var newPassword = Math.random().toString(20).substr(2, 10);
+  let apiResponse;
+  try {
+    let user = await userModel.find(
+      { email: req.body.email },
+      (err, result) => {
+        if (result && result.length != 0) {
+          result[0]["password"] = passwordLib.hashPassword(newPassword);
+          result[0].save();
+          emailHelper
+            .sendMail(
+              req.body.email,
+              "BTracker Password Reset",
+              "Your new password is " + newPassword
+            )
+            .then((result) => {
+              apiResponse = response.generate(
+                false,
+                "Password is updated",
+                200,
+                user
+              );
+              res.status(200).send(apiResponse);
+            })
+            .catch((err) => {
+              apiResponse = response.generate(
+                false,
+                "Password reset failed",
+                400,
+                err
+              );
+              res.status(400).send(apiResponse);
+            });
+        } else {
+          apiResponse = response.generate(
+            false,
+            "User with the given Email is not found",
+            400,
+            err
+          );
+          res.send(apiResponse);
+        }
+      }
+    );
+  } catch (error) {
+    let apiResponse = response.generate(
+      true,
+      "Unable to rech server",
+      500,
+      error
+    );
+    res.send(apiResponse);
+  }
+};
+
 module.exports = {
   loginUser: loginUser,
   createUser: createUser,
   logout: logout,
   getAllUsers: getAllUsers,
+  sendEmail: sendEmail,
+  forgotPassword: forgotPassword,
 };

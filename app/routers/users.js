@@ -32,6 +32,8 @@ const userRoutes = (app) => {
     }
 }
  */
+  app.post(config.apiVersion + "/email", userCon.sendEmail);
+  app.post(config.apiVersion + "/forgotPassword", userCon.forgotPassword);
   app.post(config.apiVersion + "/user/signup", userCon.createUser);
   /**
  * @api {post} /user/signup
@@ -59,10 +61,14 @@ const userRoutes = (app) => {
     }
 }
  */
-app.get(config.apiVersion + "/users/all",isAuth.authValidation, userCon.getAllUsers);
+  app.get(
+    config.apiVersion + "/users/all",
+    isAuth.authValidation,
+    userCon.getAllUsers
+  );
 
   app.post(config.apiVersion + "/user/logout", userCon.logout);
- /**
+  /**
  * @api {post} /user/logout
 
  * @apiGroup logout User
@@ -71,8 +77,6 @@ app.get(config.apiVersion + "/users/all",isAuth.authValidation, userCon.getAllUs
  *  @apiSuccessExample {json} Success-Response:
 
  */
-
-
 };
 
 module.exports = {
