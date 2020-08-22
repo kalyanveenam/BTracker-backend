@@ -1,0 +1,2 @@
+id,recordType,Shipment Number,Status,Date Created,External Document Number,Expected Shipping Date,Actual Shipping Date,Expected Delivery Date,Actual Delivery Date,Memo,Vessel Number,Bill Of Lading,Internal Id,External ID,isChecked
+1,inboundshipment,1,To Be Shipped,2020-04-06 6:23 am,,,,,,testmemo,,,1,,T

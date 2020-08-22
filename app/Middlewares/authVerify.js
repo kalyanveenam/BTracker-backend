@@ -13,8 +13,7 @@ let authValidation = (req, res, next) => {
             (err, verifiedToken) => {
               if (verifiedToken) {
                 req.user = verifiedToken;
-                console.log("verified");
-                console.log(verifiedToken);
+              
                 next();
               } else {
                 let response = apiResponse.generate(

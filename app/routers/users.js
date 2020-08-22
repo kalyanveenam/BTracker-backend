@@ -16,7 +16,7 @@ const userRoutes = (app) => {
  *@apiParam {password} password of User.
  * @apiSuccess {String} firstname Firstname of the User.
  * @apiSuccess {String} lastname  Lastname of the User.
- * @apiSuccessExample {json} Success-Response:{
+ * @apiexample {json} Success-Response:{
     "error": false,
     "message": null,
     "status": 200,

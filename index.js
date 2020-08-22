@@ -38,30 +38,29 @@ if (~files.split(",")[0].indexOf(".js") && files.split(",")[1].indexOf(".js")) {
 }
 
 files = files.substring(0, files.length - 1);
-console.log("fi " + files);
 app.use(routeNotFound.routeNotFound);
-console.log(routerPath);
+
 app.listen(process.env.PORT, () => {
   //mongoose.connect(process.env.MONGODB_URL,{useNewUrlParser:true, useUnifiedTopology:true, useMongoClient: true} );
   if (config.env == "prod") {
     mongoose.connect(config.mongodb.url, { useNewUrlParser: true });
     mongoose.connection
       .once("open", function () {
-        console.log("Conection has been made!");
+
       })
       .on("error", function (error) {
-        console.log("Error is: ", error);
+      
       });
   } else {
     mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
     mongoose.connection
       .once("open", function () {
-        console.log("Conection has been made!");
+      
       })
       .on("error", function (error) {
-        console.log("Error is: ", error);
+       
       });
   }
 
-  console.log("App is listening on " + process.env.PORT);
+  
 });

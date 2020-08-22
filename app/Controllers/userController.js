@@ -70,10 +70,10 @@ let loginUser = (req, res) => {
   let tokengenerate = (data) => {
     return new Promise((resolve, reject) => {
       token.generateToken(data, (err, res) => {
-        console.log("zz");
+        
 
         let userObj = data.toObject();
-        console.log(userObj.password);
+       
         delete userObj.password;
         delete userObj.phoneNo;
         delete userObj.__v;
@@ -89,8 +89,7 @@ let loginUser = (req, res) => {
   };
   let saveToken = (tokendetails) => {
     return new Promise((resolve, reject) => {
-      console.log("inside save token gen");
-      console.log(tokendetails.userDetails._id);
+      
       authModel.findOne(
         { userId: tokendetails.userDetails._id },
         (err, result) => {

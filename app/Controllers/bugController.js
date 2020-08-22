@@ -1,6 +1,5 @@
 const Mongoose = require("mongoose");
 let response = require("../Libs/responseLib");
-const responseLib = require("../Libs/responseLib");
 const bugModel = Mongoose.model("Trackers");
 const userModel = Mongoose.model("users");
 const commModel = Mongoose.model("comments");
@@ -40,8 +39,8 @@ let createBug = (req, res) => {
 };
 let getAllBugs = async (req, res) => {
   let user = await userModel.findById(req.user._id);
-  console.log("user->" + req.user);
-  console.log(req.user);
+  
+
   await user.populate("userBugs").execPopulate();
   let apiResponse = response.generate(false, null, 200, user.userBugs);
   res.send(apiResponse);
@@ -111,7 +110,7 @@ let createComment = (req, res) => {
 };
 let getCommentsById = async (req, res) => {
   let tracker = await bugModel.findById(req.query.id);
-  console.log("tracker->" + tracker);
+  
 
   await tracker.populate("comments").execPopulate();
   let apiResponse = response.generate(false, null, 200, tracker.comments);
@@ -160,7 +159,7 @@ let createWatcher = (req, res) => {
 // displays all the users by current tracker
 let getWatchersByUsername = async (req, res) => {
   let bug = await bugModel.findById(req.query.id);
-  console.log(bug);
+  
   await bug.populate("watchers").execPopulate();
   let apiResponse = response.generate(false, null, 200, bug.watchers);
   res.send(apiResponse);
@@ -168,9 +167,9 @@ let getWatchersByUsername = async (req, res) => {
 //finds a user by its id of current user , populates all the bugs marked as watched by current user
 // should be displyed in dashboard
 let getWatchTrackerByuser = async (req, res) => {
-  console.log(req.query.id);
+  
   let user = await userModel.findById(req.query.id);
-  console.log(user);
+  
   await user.populate("watchedBugs").execPopulate();
   let apiResponse = response.generate(false, null, 200, user.watchedBugs);
   res.send(apiResponse);
@@ -190,10 +189,10 @@ let uploadAttachment = (req, res) => {
       return res.send(err);
     }
 
-    console.log(req.file.path);
+    
 
     // Display uploaded image for user validation
-     var response = {};
+    var response = {};
 
     res.status(200).send(JSON.stringify(response));
   });
@@ -214,21 +213,18 @@ let storeAttachments = (req, res) => {
   });
 };
 let removeFromWatchList = async (req, res) => {
-   await watchModel.findOneAndDelete({ title: req.query.title }, (error, response) => { 
-
-    if (response) {
-      let apiResponse = response.generate(false, null, 200, response);
-      res.send(apiResponse);
+  await watchModel.findOneAndDelete(
+    { title: req.body.title },
+    (error, result) => {
+      if (result) {
+        let apiResponse = response.generate(false, null, 200, response);
+        res.send(apiResponse);
+      } else {
+        let apiResponse = response.generate(true, error, 404, null);
+        res.send(apiResponse);
+      }
     }
-    else { 
-      let apiResponse = response.generate(true, error, 404, null);
-      res.send(apiResponse);
-    }
-  })
-  
-  
-  let apiResponse = response.generate(false, null, 200, user.userBugs);
-  res.send(apiResponse);
+  );
 };
 module.exports = {
   createBug: createBug,
@@ -245,5 +241,5 @@ module.exports = {
   getWatchTrackerByuser: getWatchTrackerByuser,
   uploadAttachment: uploadAttachment,
   storeAttachments: storeAttachments,
-  removeFromWatchList:removeFromWatchList
+  removeFromWatchList: removeFromWatchList,
 };
