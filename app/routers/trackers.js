@@ -74,6 +74,11 @@ const bugRoutes = (app) => {
     auth.authValidation,
     bugController.storeAttachments
   )
+  app.post(
+    apiConfig.config.apiVersion + "/remove/watcher",
+    auth.authValidation,
+    bugController.removeFromWatchList
+  )
 };
 /**
  * @api {post} /api/v1/create/bug

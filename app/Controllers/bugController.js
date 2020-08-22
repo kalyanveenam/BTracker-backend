@@ -213,6 +213,23 @@ let storeAttachments = (req, res) => {
     }
   });
 };
+let removeFromWatchList = async (req, res) => {
+   await watchModel.findOneAndDelete({ title: req.query.title }, (error, response) => { 
+
+    if (response) {
+      let apiResponse = response.generate(false, null, 200, response);
+      res.send(apiResponse);
+    }
+    else { 
+      let apiResponse = response.generate(true, error, 404, null);
+      res.send(apiResponse);
+    }
+  })
+  
+  
+  let apiResponse = response.generate(false, null, 200, user.userBugs);
+  res.send(apiResponse);
+};
 module.exports = {
   createBug: createBug,
   getAllBugs: getAllBugs,
@@ -228,4 +245,5 @@ module.exports = {
   getWatchTrackerByuser: getWatchTrackerByuser,
   uploadAttachment: uploadAttachment,
   storeAttachments: storeAttachments,
+  removeFromWatchList:removeFromWatchList
 };
