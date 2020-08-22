@@ -394,12 +394,13 @@ const bugRoutes = (app) => {
     bugController.uploadAttachment
   );
 
-  
+
   app.post(
     apiConfig.config.apiVersion + "/upload/attachment",
     auth.authValidation,
     bugController.storeAttachments
   )
+  
 
 };
 module.exports = { bugRoutes: bugRoutes };
